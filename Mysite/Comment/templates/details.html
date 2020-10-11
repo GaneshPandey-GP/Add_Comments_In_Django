@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card mt-3 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{Posts.Title}}</h5>
+                <p class="card-text">{{Posts.content}}</p>
+                <p class="card-text"><small class="text-muted">{{Posts.Date_created|timesince}} ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+       
+        {% for comment in Posts.get_comnents %}
+        <div class="card">
+        {% if not request.user.is_staff or not request.user.is_superuser %}
+        <div>Annonyms</div>
+        {% else %}
+        <h4><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{comment.user.username}}</h4>
+        {%endif %}
+        <p class="date">{{comment.timestamp|timesince}} ago</p>
+        <div>{{comment.Message}}</div>
+        </div>
+        <hr>
+        {% endfor %}
+
+    </div>
+    {% load crispy_forms_tags %}
+    <div class="col-sm-12">
+        <form method="POST" action="">{% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Add Comment" />
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

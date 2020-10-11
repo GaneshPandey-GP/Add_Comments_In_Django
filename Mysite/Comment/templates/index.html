@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content  %}
+<div class="row mt-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+               <h3><strong>Post List</strong> </h3>
+            </div>
+            {% for  p in posts %}
+            <div class="card-body">
+                <h5 class="card-title">{{p.Title}}</h5>
+                <p class="card-text">{{p.Overview}}</p>
+                <a href="{% url 'detail' p.id %}" class="btn btn-primary">View</a>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
