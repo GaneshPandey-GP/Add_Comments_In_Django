@@ -20,7 +20,15 @@ class Comment(models.Model):
     post = models.ForeignKey(Post,related_name="Comments",on_delete=models.CASCADE,blank=True,null=True)
     Message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+
+
+    class Meta:
+        ordering = ('timestamp',)
 
     def __str__(self):
-        return str(self.post)
+        return 'Comment by {}'.format(self.user)
+
 
