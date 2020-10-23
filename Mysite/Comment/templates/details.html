@@ -14,16 +14,28 @@
     <div class="col-sm-12">
        
         {% for comment in Posts.get_comnents %}
-        <div class="card">
-        {% if not request.user.is_staff or not request.user.is_superuser %}
-        <div>Annonyms</div>
-        {% else %}
-        <h4><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{comment.user.username}}</h4>
-        {%endif %}
-        <p class="date">{{comment.timestamp|timesince}} ago</p>
-        <div>{{comment.Message}}</div>
-        </div>
-        <hr>
+
+            <div style="padding: 3px;">
+                <div class="card__content">
+                    {% if not request.user.is_staff or not request.user.is_superuser %}
+                    <div>Annonyms</div>
+                    {% else %}
+                    <h4><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{comment.user.username}}</h4>
+                    {%endif %}
+                    <p class="date">{{comment.timestamp|timesince}} ago</p>
+                    <p>{{comment.Message}}</p>
+                </div>
+            
+            {% for reply in comment.replies.all %}
+                <div style="margin: 30px;">
+                    <p><h4><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{reply.user.username}}</h4>{{ reply.name }} &nbsp;&nbsp; {{ reply.timestamp }}</p>
+                    <li>{{ reply.Message }}</li>
+                </div>
+            {% endfor %}
+
+            </div>
+            <hr>
+            
         {% endfor %}
 
     </div>
